@@ -1,3 +1,9 @@
 ### Commit 1 Reflection Notes
 
 `handle_connection` berguna untuk membaca *request* dari browser saat sudah terkoneksi dengan server. Di dalam fungsi `handle_connection`, dibuat sebuah *instance* `BuffReader` yang membungkus *mutable reference* ke `stream` yang mana merupakan *instance* `TcpStream` yang diterima dari browser. `BuffReader` kemudian bertugas untuk membaca `stream` yang diterima. `BuffReader` akan membaca *request* yang dikirimkan browser dan melakukan *splitting* setiap bertemu dengan karakter *new line* sehingga `BuffReader` akan membaca *request* secara per-baris. Hasil bacaan per-baris tersebut kemudian disimpan pada variabel `http_request` yang merupakan sebuah *instance* *vector*. Terakhir, fungsi `handle_connection` akan mem-*print* isi dari vector `http_request` tersebut.
+
+### Commit 2 Reflection Notes
+
+Pada fungsi `handle_connection` yang baru, kita tidak hanya membaca *request* dari browser, tetapi juga mengembalikan HTTP response ke *client* atau *browser*. HTTP response yang dikirimkan terdiri dari 3 bagian yaitu *status line*, *header*, dan *message body*. *Status line* berisi *HTTP Version, Status Code*, dan *Reason pharse*. Pada fungsi `handle_connection`, *status line* direpresentasikan oleh variable `status_line`. Sementara itu, *header* yang dikirimkan berupa informasi *content length*. Untuk *message body* dikirimkan sebuah html sederhana. Html tersebut akan dibaca dan di-*convert* menjadi string menggunakan *library* `fs`. Ketiga komponen tersebut kemudian digabungkan pada variable `response` dan dikirimkan pada instance `stream` sebelumnya.
+
+![Commit 2](assets/images/commit2.png)
