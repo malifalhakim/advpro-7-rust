@@ -1,3 +1,9 @@
+Nama : M.Alif Al Hakim \
+Kelas : B \
+NPM : 2206081250
+
+# Refleksi
+
 ### Commit 1 Reflection Notes
 
 `handle_connection` berguna untuk membaca *request* dari browser saat sudah terkoneksi dengan server. Di dalam fungsi `handle_connection`, dibuat sebuah *instance* `BuffReader` yang membungkus *mutable reference* ke `stream` yang mana merupakan *instance* `TcpStream` yang diterima dari browser. `BuffReader` kemudian bertugas untuk membaca `stream` yang diterima. `BuffReader` akan membaca *request* yang dikirimkan browser dan melakukan *splitting* setiap bertemu dengan karakter *new line* sehingga `BuffReader` akan membaca *request* secara per-baris. Hasil bacaan per-baris tersebut kemudian disimpan pada variabel `http_request` yang merupakan sebuah *instance* *vector*. Terakhir, fungsi `handle_connection` akan mem-*print* isi dari vector `http_request` tersebut.
@@ -71,3 +77,7 @@ fn handle_connection(mut stream: TcpStream) {
 ### Commit 4 Reflection Notes
 
 Pada modifikasi kali ini, fungsi `handle_connection` akan menangani tiga kemungkinan *request* path, yaitu `/sleep`,`/`,dan *path* selain itu. Untuk *request* dengan path `/sleep`, server akan *sleep* selama 10 detik terlebih dahulu sebelum me-*render* `hello.html`.  Sementara untuk dua *request* lainnya masih sama dengan fungsi sebelumnya. Jika kita mengakses path `/`, lalu mengakses path `/sleep` maka browser akan menerima respons path `/` dengan cepat dan respon path `/sleep` 10 detik setelah diakses. Sementara itu, jika kita mengakses path `/sleep` terlebih dahulu lalu mengakses path `/`, maka respons dari path `/` juga akan tertunda selama kira-kira 10 detik. Hal ini dikarenakan server kita masih meng-*handle* permintaan secara satu persatu sehingga jika suatu *request* lambat untuk direspon, maka permintaan lain setelahnya juga akan mengalami penundaan. 
+
+### Commit 5 Reflection Notes
+
+*Thread pool* adalah kumpulan *spawned thread* yang menunggu dan siap untuk mengerjakan suatu *task*. Ketika program menerima sebuah *task* baru, program akan menugaskan salah satu *thread* pada *thread pool* untuk mengerjakan *task* tersebut. Sementara itu, *spawned thread* lain akan bersiap untuk melakukan *task* lain yang datang ketika *thread* pertama masih melakukan *task*-nya. Ketika *thread* pertama tadi telah selesai melaksanankan *task*-nya, maka ia akan kembali ke *thread pool* dan bersiap untuk melakukan *task* lain yang akan datang. *Thread pool* ini dapat membantu program memproses *request* secara bersamaan sehingga *throughput* server dapat meningkat. Pada *thread pool*, kita membatasi jumlah *thread* pada *pool* menjadi bilangan yang kecil untuk mencegah *Denial of Service* (DoS) *attacks*.
