@@ -67,3 +67,7 @@ fn handle_connection(mut stream: TcpStream) {
 *Refactoring* ini bertujuan untuk mengurangi adanya duplikasi code yang ada pada if-else. *Refactoring* ini membantu kita memahami kode dengan lebih mudah. Selain itu, *refactoring* ini juga memudahkan kita dalam melakukan modifikasi jika kita ingin mengubah bagaimana proses *reading* dan *response writing* bekerja.
 
 ![Commit 3](assets/images/commit3.png)
+
+### Commit 4 Reflection Notes
+
+Pada modifikasi kali ini, fungsi `handle_connection` akan menangani tiga kemungkinan *request* path, yaitu `/sleep`,`/`,dan *path* selain itu. Untuk *request* dengan path `/sleep`, server akan *sleep* selama 10 detik terlebih dahulu sebelum me-*render* `hello.html`.  Sementara untuk dua *request* lainnya masih sama dengan fungsi sebelumnya. Jika kita mengakses path `/`, lalu mengakses path `/sleep` maka browser akan menerima respons path `/` dengan cepat dan respon path `/sleep` 10 detik setelah diakses. Sementara itu, jika kita mengakses path `/sleep` terlebih dahulu lalu mengakses path `/`, maka respons dari path `/` juga akan tertunda selama kira-kira 10 detik. Hal ini dikarenakan server kita masih meng-*handle* permintaan secara satu persatu sehingga jika suatu *request* lambat untuk direspon, maka permintaan lain setelahnya juga akan mengalami penundaan. 
